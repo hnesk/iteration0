@@ -1,0 +1,100 @@
+h1 {
+  font-family: Ubuntu, sans-serif;
+  font-weight: bolder;
+}
+
+h2 {
+  font-family: Ubuntu, sans-serif;
+  font-weight: bold;
+}
+
+h3 {
+  font-family: Ubuntu, sans-serif;
+  font-weight: 600;
+}
+
+/* FOOTER */
+@footer-height: 25px;
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: @footer-height;
+}
+
+#content {
+  margin-top: 60px;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: @footer-height;
+  background-color: @gray-darker;
+  color: #fff;
+  font-family: Ubuntu, sans-serif;
+  font-weight: lighter;
+  font-size: 15px;
+}
+
+#footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* navbar */
+.navbar-iteration0 {
+  .navbar-inverse();
+  .navbar-fixed-top();
+  background-color: #A80A1A;
+  background-repeat: repeat-x;
+
+  .navbar-nav > li > a {
+    color: #eee;
+  }
+
+  .navbar-brand {
+    background-position: 7px 7px;
+    background-repeat: no-repeat;
+    padding-left: 36px;
+    font-weight: bold;
+    font-size: 24px;
+    color: #fff;
+  }
+}
+
+.button-form, .button-form form, .button-form form div {
+  display: inline;
+}
+
+.button-form .form-group {
+  display: none;
+}
+
+.form-group label.required:after {
+  content: ' *';
+  color: #800;
+  vertical-position: superscript;
+}
+
+.table-debug {
+  background-color: #ffffff;
+  margin-bottom: 0px;
+  .table-debug {
+    background-color: #f8f8f8;
+    .table-debug {
+      background-color: #f0f0f0;
+      .table-debug {
+        background-color: #e8e8e8;
+        .table-debug {
+          background-color: #e0e0e0;
+        }
+      }
+    }
+  }
+}
+

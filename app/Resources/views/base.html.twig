@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iteration 0 - {% block title %}###{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block stylesheets %}
+        <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen">
+    {% endblock stylesheets %}
+    {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
+</head>
+
+<body>
+<div class="navbar navbar-iteration0" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Iteration 0</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            {{  knp_menu_render('app_main', { 'style': 'navbar' }) }}
+        </div>
+    </div>
+</div>
+
+<!-- Begin page content -->
+<div class="container" id="content">
+    {% block content %}
+        ###content###
+    {% endblock content %}
+</div>
+
+<div id="footer">
+    <div class="container">
+        {% block footer %}
+            <p class="text-muted">Iteration 0 {{ "now"|date("Y") }}</p>
+        {% endblock footer %}
+    </div>
+</div>
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>
