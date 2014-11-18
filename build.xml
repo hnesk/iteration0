@@ -9,7 +9,7 @@
 
     <target name="build" depends="build-sequential"/>
 
-    <target name="build-sequential" depends="prepare,lint,composer-install,twig-lint,yaml-lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpunit,phpdox"/>
+    <target name="build-sequential" depends="prepare,lint,composer-install,twig-lint,yaml-lint,install-assets,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpunit,phpdox"/>
 
     <target name="build-parallel" depends="prepare,lint,composer-install,tools-parallel,phpdox"/>
 
@@ -114,6 +114,11 @@
 
     </target>
 
+    <target name="install-assets">
+        <exec executable="./bin/console" failonerror="true">
+            <arg value="assetic:dump"/>
+        </exec>
+    </target>
 
     <target name="phploc"
             depends="composer-install, lint"
