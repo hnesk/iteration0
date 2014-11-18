@@ -15,4 +15,13 @@ class DefaultController extends Controller
     {
         return $this->render('AppBundle:Default:index.html.twig', array('name' => 'Hannes'));
     }
+
+    /**
+     * @Route("/test")
+     */
+    public function testAction()
+    {
+        return $this->render('AppBundle:Default:index.html.twig', array('name' => 'Test'));
+    }
+
 }

@@ -1,0 +1,10 @@
+<div class="col-lg-8">
+    <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit" role="form">
+        {{ form_widget(form) }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                {{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}
+            </button>
+        </div>
+    </form>
+</div>
