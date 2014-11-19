@@ -11,3 +11,24 @@ services:
         scope: request # needed as we have the request as a dependency here
         tags:
             - { name: knp_menu.menu, alias: app_main } # The alias is what is used to retrieve the menu
+
+    app.controller.static:
+        class:    AppBundle\Controller\StaticController
+        arguments:
+            - @app.controller_utils
+            - @local_content_fs
+
+    app.controller_utils:
+        class:      AppBundle\Service\ControllerUtils
+        lazy:       true
+        arguments:  [@templating, @router, @form.factory, @security.context]
+
+    security.context:
+        class:      %security.context.class%
+        lazy:       true
+        arguments:  [@security.authentication.manager, @security.access.decision_manager, %security.access.always_authenticate_before_granting%]
+
+    form.factory:
+        class:      %form.factory.class%
+        lazy:       true
+        arguments:  [@form.registry, @form.resolved_type_factory]

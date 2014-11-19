@@ -1,5 +1,5 @@
 {
-    "name": "hnesk/iteration0",
+    "name": "hnesk/flosse",
     "license": "GPL",
     "type": "project",
     "description": "A base for Symfony projects",
@@ -42,6 +42,10 @@
         "jquery/jquery": "1.11.1",
 
         "friendsofsymfony/user-bundle":"~1.3",
+        "dropbox-php/dropbox-php": "dev-master",
+        "knplabs/gaufrette": "dev-master",
+        "knplabs/knp-gaufrette-bundle": "dev-master",
+        "knplabs/knp-markdown-bundle": "~1.3",
         "knplabs/knp-menu-bundle": "~2.0"        
     },
     "require-dev": {

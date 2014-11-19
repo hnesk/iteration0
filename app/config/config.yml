@@ -83,3 +83,16 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
+
+knp_gaufrette:
+    adapters:
+        local_content_adapter:
+            local:
+                directory:  /home/jk/Projekte/flosse/app/Resources/content/
+                create:     true
+
+    filesystems:
+        local_content:
+            adapter:    local_content_adapter
+            alias:      local_content_fs
+
