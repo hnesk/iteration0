@@ -10,6 +10,7 @@
 
 namespace AppBundle\Service;
 
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +27,7 @@ use Symfony\Component\Templating\TemplateReferenceInterface;
  */
 class ControllerUtils
 {
-    /** @var \Symfony\Component\Templating\EngineInterface */
+    /** @var EngineInterface */
     private $templating;
 
     /** @var FormFactoryInterface */
@@ -73,7 +74,7 @@ class ControllerUtils
      * @param  string                                       $type    #FormType
      * @param  null                                         $data
      * @param  array                                        $options
-     * @return \Symfony\Component\Form\FormBuilderInterface
+     * @return FormBuilderInterface
      */
     public function formBuilder($type = 'form', $data = null, array $options = array())
     {

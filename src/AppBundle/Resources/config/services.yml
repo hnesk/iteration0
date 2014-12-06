@@ -1,14 +1,18 @@
+parameters:
+  lender.class: AppBundle\Entity\Credit\Lender
+  agreement.class: AppBundle\Entity\Credit\Agreement
+
 services:
     app.menu_builder:
         class: AppBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory"]
 
     app.menu.main:
-        class: Knp\Menu\MenuItem # the service definition requires setting the class
+        class: Knp\Menu\MenuItem
         factory_service: app.menu_builder
         factory_method: createMainMenu
         arguments: ["@request"]
-        scope: request # needed as we have the request as a dependency here
+        scope: request
         tags:
             - { name: knp_menu.menu, alias: app_main } # The alias is what is used to retrieve the menu
 
@@ -17,6 +21,40 @@ services:
         arguments:
             - @app.controller_utils
             - @local_content_fs
+            - @app.repository.lender
+            - @app.repository.agreement
+
+    app.repository.lender:
+        class: %lender.class%Repository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [%lender.class%]
+
+    app.repository.agreement:
+        class: %agreement.class%Repository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [%agreement.class%]
+
+    app.form.credit.lendertype:
+        class: AppBundle\Form\Credit\LenderType
+        tags:
+            - { name: form.type, alias: credit_lender }
+
+    app.form.credit.agreementtype:
+        class: AppBundle\Form\Credit\AgreementType
+        tags:
+            - { name: form.type, alias: credit_agreement}
+
+    app.form.general.personnametype:
+        class: AppBundle\Form\General\PersonNameType
+        tags:
+            - { name: form.type, alias: personname}
+
+    app.form.general.postaladdresstype:
+        class: AppBundle\Form\General\PostalAddressType
+        tags:
+            - { name: form.type, alias: postaladdress}
 
     app.controller_utils:
         class:      AppBundle\Service\ControllerUtils

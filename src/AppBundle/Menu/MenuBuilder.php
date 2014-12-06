@@ -16,7 +16,7 @@ class MenuBuilder
         $this->factory = $factory;
     }
 
-    public function createMainMenu(Request $request)
+    public function createMainMenu(/*Request $request*/)
     {
         $menu = $this->factory->createItem('root');
 
