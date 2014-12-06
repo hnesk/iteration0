@@ -1,0 +1,8 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Neuer Kreditgeber{% endblock %}
+{% block content %}
+<h1>{{ block('title') }}</h1>
+{{ dump(lender) }}
+{{ form(form) }}
+{% endblock content %}
