@@ -40,7 +40,7 @@ class PostalAddress
     /**
      * The address region
      * @var string
-     * @ORM\Column(type="string",nullable=true);
+     * @ORM\Column(type="string", nullable=true);
      */
     protected $region;
 

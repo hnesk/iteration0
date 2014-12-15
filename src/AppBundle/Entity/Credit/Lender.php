@@ -10,14 +10,14 @@ namespace AppBundle\Entity\Credit;
 
 use AppBundle\Entity\General\PersonName;
 use AppBundle\Entity\General\PostalAddress;
+use AppBundle\Entity\IdInterface;
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Credit\LenderRepository;
 
 /**
  * @ORM\Entity(repositoryClass=LenderRepository::class)
  * @ORM\Table(name="credit_lender")
  */
-class Lender
+class Lender implements IdInterface
 {
     /**
      * @ORM\Id
@@ -37,6 +37,14 @@ class Lender
      * @ORM\OneToOne(targetEntity=PostalAddress::class,cascade={"all"})
      */
     protected $address;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return PostalAddress

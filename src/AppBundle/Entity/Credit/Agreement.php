@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity\Credit;
 
+use AppBundle\Entity\IdInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=AgreementRepository::class)
  * @ORM\Table(name="credit_agreement")
  */
-class Agreement
+class Agreement implements IdInterface
 {
     /**
      * @ORM\Id
@@ -27,7 +28,7 @@ class Agreement
 
     /**
      * @var Lender
-     * @ORM\ManyToOne(targetEntity=Lender::class,cascade={"all"})
+     * @ORM\ManyToOne(targetEntity=Lender::class)
      */
     protected $lender;
 
@@ -89,6 +90,11 @@ class Agreement
         $this->periodStart = $periodStart ?: new \DateTime();
         $this->periodEnd = $periodEnd;
         $this->changes = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return number_format($this->amount, 2, ',', '.').'€ ,'.$this->lender->getName();
     }
 
     /**

@@ -1,0 +1,8 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Kreditgeber {{ lender }} bearbeiten{% endblock %}
+{% block content %}
+<h1>{{ block('title') }}</h1>
+{{ form(form) }}
+{{ unsafe_action(path('app_lender_delete', {lender: lender.id})) }}
+{% endblock content %}

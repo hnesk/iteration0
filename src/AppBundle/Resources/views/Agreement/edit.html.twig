@@ -1,0 +1,8 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Direktkreditvertrag {{ agreement }} bearbeiten{% endblock %}
+{% block content %}
+<h1>{{ block('title') }}</h1>
+{{ form(form) }}
+{{ unsafe_action(path('app_agreement_delete', {agreement: agreement.id})) }}
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Direktkreditverträge{% endblock %}
+{% block content %}
+    <h1>{{ block('title') }}</h1>
+    <a href="{{ path('app_agreement_new') }}">+</a>
+    <ul>
+    {% for agreement in agreements %}
+        <li>
+            <a href="{{ path('app_agreement_edit', {agreement:agreement.id}) }}">{{ agreement }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock content %}

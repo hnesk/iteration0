@@ -24,6 +24,19 @@ services:
             - @app.repository.lender
             - @app.repository.agreement
 
+    app.controller.lender:
+        class:    AppBundle\Controller\LenderController
+        arguments:
+            - @app.controller_utils
+            - @app.repository.lender
+
+    app.controller.agreement:
+        class:    AppBundle\Controller\AgreementController
+        arguments:
+            - @app.controller_utils
+            - @app.repository.agreement
+
+
     app.repository.lender:
         class: %lender.class%Repository
         factory_service: doctrine.orm.default_entity_manager
@@ -46,6 +59,12 @@ services:
         tags:
             - { name: form.type, alias: credit_agreement}
 
+
+    app.form..idtype:
+        class: AppBundle\Form\IdInterfaceType
+        tags:
+            - { name: form.type, alias: id }
+
     app.form.general.personnametype:
         class: AppBundle\Form\General\PersonNameType
         tags:
@@ -59,14 +78,23 @@ services:
     app.controller_utils:
         class:      AppBundle\Service\ControllerUtils
         lazy:       true
-        arguments:  [@templating, @router, @form.factory, @security.context]
+        arguments:  [@templating, @router, @form.factory, @security.context, @app.service.unsafeactionform]
 
     security.context:
         class:      %security.context.class%
         lazy:       true
-        arguments:  [@security.authentication.manager, @security.access.decision_manager, %security.access.always_authenticate_before_granting%]
+        arguments:  [@security.token_storage, @security.authorization_checker]
 
     form.factory:
         class:      %form.factory.class%
         lazy:       true
         arguments:  [@form.registry, @form.resolved_type_factory]
+
+    app.twig.unsafeactionextension:
+        class:      AppBundle\Twig\UnsafeActionExtension
+        arguments:  [ @app.service.unsafeactionform, @twig.form.renderer ]
+        tags:       [ { name: twig.extension } ]
+
+    app.service.unsafeactionform:
+        class:      AppBundle\Service\UnsafeActionFormBuilder
+        arguments:  [ @form.factory]

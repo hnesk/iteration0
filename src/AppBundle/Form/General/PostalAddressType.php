@@ -18,9 +18,9 @@ class PostalAddressType extends AbstractType
         $builder
             ->add('streetAddress')
             ->add('postalCode')
-            ->add('addressLocality')
-            ->add('addressRegion')
-            ->add('addressCountry','country')
+            ->add('locality')
+            ->add('region')
+            ->add('country','country')
             #->add('postOfficeBoxNumber')
         ;
     }

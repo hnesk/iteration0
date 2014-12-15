@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Direktkreditgeber{% endblock %}
+{% block content %}
+    <h1>{{ block('title') }}</h1>
+    <a href="{{ path('app_lender_new') }}">+</a>
+    <ul>
+    {% for lender in lenders %}
+        <li>
+            <a href="{{ path('app_lender_edit', {lender:lender.id}) }}">{{ lender }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock content %}
