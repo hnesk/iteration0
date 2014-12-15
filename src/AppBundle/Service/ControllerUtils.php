@@ -10,6 +10,7 @@
 
 namespace AppBundle\Service;
 
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -33,6 +34,9 @@ class ControllerUtils
     /** @var FormFactoryInterface */
     private $formFactory;
 
+    /** @var UnsafeActionFormBuilder */
+    private $unsafeActionFormBuilder;
+
     /** @var RouterInterface */
     private $router;
 
@@ -40,21 +44,24 @@ class ControllerUtils
     private $security;
 
     /**
-     * @param EngineInterface          $templating
-     * @param RouterInterface          $router
-     * @param FormFactoryInterface     $formFactory
+     * @param EngineInterface $templating
+     * @param RouterInterface $router
+     * @param FormFactoryInterface $formFactory
      * @param SecurityContextInterface $security
+     * @param UnsafeActionFormBuilder $unsafeActionFormBuilder
      */
     public function __construct(
         EngineInterface $templating,
         RouterInterface $router,
         FormFactoryInterface $formFactory,
-        SecurityContextInterface $security
+        SecurityContextInterface $security,
+        UnsafeActionFormBuilder $unsafeActionFormBuilder
     ) {
         $this->templating = $templating;
         $this->router = $router;
         $this->formFactory = $formFactory;
         $this->security = $security;
+        $this->unsafeActionFormBuilder = $unsafeActionFormBuilder;
     }
 
     /**
@@ -130,24 +137,36 @@ class ControllerUtils
     /**
      * Renders a template.
      *
-     * @param array|string|TemplateReferenceInterface $name       A #Template name or a TemplateReferenceInterface
-     * @param array                                   $parameters An array of parameters to pass to the template
+     * @param array|string|TemplateReferenceInterface $name A #Template name or a TemplateReferenceInterface
+     * @param array $parameters An array of parameters to pass to the template
      *
-     * @return string The evaluated template as a string
+     * @param int $status
+     * @param array $headers
      *
-     * @throws \RuntimeException if the template cannot be rendered
+     * @return Response The evaluated template as a string
      *
      * @api
      */
-    public function render($name, array $parameters = array())
+    public function render($name, array $parameters = array(), $status = 200, $headers = array())
     {
         $name = is_array($name) ? $name : array($name);
         foreach ($name as $templateName) {
             if ($this->templating->exists($templateName)) {
-                return $this->templating->render($templateName, $parameters);
+                return new Response($this->templating->render($templateName, $parameters), $status, $headers);
             }
         }
 
-        return 'No Template found, given: '.implode(', ', $name);
+        throw new \InvalidArgumentException('No Template found, given: '.implode(', ', $name));
+    }
+
+    /**
+     * @param string $url
+     * @param string $method
+     * @param string $label
+     * @return Form
+     */
+    public function unsafeActionForm($url = '', $method = 'DELETE', $label = 'löschen')
+    {
+        return $this->unsafeActionFormBuilder->form($url, $method, $label);
     }
 }
