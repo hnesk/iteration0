@@ -8,10 +8,12 @@ html {
 
 body {
   margin-bottom: @footer-height;
+  background-image: url("/flosse/web/img/sandstone.png");
+  background-repeat: repeat;
 }
 
 #content {
-  margin-top: 90px;
+  margin-top: 0px;
 }
 
 #footer {
@@ -19,9 +21,10 @@ body {
   bottom: 0;
   width: 100%;
   height: @footer-height;
-  background-color: @gray-darker;
+  background-color: @navbar-inverse-bg;
   color: #fff;
   font-weight: lighter;
+  text-shadow: 0px 0px 2px @gray-dark;
 }
 
 #footer > .container {
@@ -146,14 +149,15 @@ input,
   letter-spacing: -1px;
   text-transform: lowercase;
   font-weight: normal;
+  text-shadow: 0px 0px 2px @gray-dark;
 
   i {
-    font-family: 'DejaVu Serif', serif;
+    font-family: 'Times New Roman', serif;
     font-style: normal;
     font-weight: normal;
     font-size: 190%;
     position: relative;
-    top: 0.47em;
+    top: 0.4em;
     left: -0.01em;
   }
 }
