@@ -90,9 +90,22 @@ knp_gaufrette:
             local:
                 directory:  /home/jk/Projekte/flosse/app/Resources/content/
                 create:     true
+        local_resource_adapter:
+            local:
+                directory:  %kernel.root_dir%/../web/resources/
+                create:     true
+
 
     filesystems:
         local_content:
             adapter:    local_content_adapter
             alias:      local_content_fs
+        local_resource:
+            adapter:    local_resource_adapter
+            alias:      local_resource_fs
 
+
+
+knp_markdown:
+    parser:
+        service: cms.service.markdown

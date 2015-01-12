@@ -6,7 +6,10 @@
     "autoload": {
         "psr-0": { "": "src/", "SymfonyStandard": "app/" }
     },
+
     "repositories": [
+        {"type": "vcs","url": "/home/jk/Projekte/CivilizedTypes/"},
+        {"type": "vcs","url": "/home/jk/Projekte/CivilizedUrl/"},
         {
             "type": "package",
             "package": {
@@ -46,7 +49,9 @@
         "knplabs/gaufrette": "dev-master",
         "knplabs/knp-gaufrette-bundle": "dev-master",
         "knplabs/knp-markdown-bundle": "~1.3",
-        "knplabs/knp-menu-bundle": "~2.0"        
+        "knplabs/knp-menu-bundle": "~2.0",
+        "civilized/types-url":"dev-master",
+        "civilized/types-primitive":"dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

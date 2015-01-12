@@ -8,9 +8,8 @@
  * Created: 25.07.14 15:38
  */
 
-namespace AppBundle\Service;
+namespace CmsBundle\Service;
 
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,9 +33,6 @@ class ControllerUtils
     /** @var FormFactoryInterface */
     private $formFactory;
 
-    /** @var UnsafeActionFormBuilder */
-    private $unsafeActionFormBuilder;
-
     /** @var RouterInterface */
     private $router;
 
@@ -48,20 +44,17 @@ class ControllerUtils
      * @param RouterInterface $router
      * @param FormFactoryInterface $formFactory
      * @param SecurityContextInterface $security
-     * @param UnsafeActionFormBuilder $unsafeActionFormBuilder
      */
     public function __construct(
         EngineInterface $templating,
         RouterInterface $router,
         FormFactoryInterface $formFactory,
-        SecurityContextInterface $security,
-        UnsafeActionFormBuilder $unsafeActionFormBuilder
+        SecurityContextInterface $security
     ) {
         $this->templating = $templating;
         $this->router = $router;
         $this->formFactory = $formFactory;
         $this->security = $security;
-        $this->unsafeActionFormBuilder = $unsafeActionFormBuilder;
     }
 
     /**
@@ -157,16 +150,5 @@ class ControllerUtils
         }
 
         throw new \InvalidArgumentException('No Template found, given: '.implode(', ', $name));
-    }
-
-    /**
-     * @param string $url
-     * @param string $method
-     * @param string $label
-     * @return Form
-     */
-    public function unsafeActionForm($url = '', $method = 'DELETE', $label = 'löschen')
-    {
-        return $this->unsafeActionFormBuilder->form($url, $method, $label);
     }
 }

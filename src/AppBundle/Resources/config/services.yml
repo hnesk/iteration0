@@ -16,24 +16,16 @@ services:
         tags:
             - { name: knp_menu.menu, alias: app_main } # The alias is what is used to retrieve the menu
 
-    app.controller.static:
-        class:    AppBundle\Controller\StaticController
-        arguments:
-            - @app.controller_utils
-            - @local_content_fs
-            - @app.repository.lender
-            - @app.repository.agreement
-
     app.controller.lender:
         class:    AppBundle\Controller\LenderController
         arguments:
-            - @app.controller_utils
+            - @cms.controller_utils
             - @app.repository.lender
 
     app.controller.agreement:
         class:    AppBundle\Controller\AgreementController
         arguments:
-            - @app.controller_utils
+            - @cms.controller_utils
             - @app.repository.agreement
 
 
@@ -60,11 +52,6 @@ services:
             - { name: form.type, alias: credit_agreement}
 
 
-    app.form..idtype:
-        class: AppBundle\Form\IdInterfaceType
-        tags:
-            - { name: form.type, alias: id }
-
     app.form.general.personnametype:
         class: AppBundle\Form\General\PersonNameType
         tags:
@@ -75,26 +62,11 @@ services:
         tags:
             - { name: form.type, alias: postaladdress}
 
-    app.controller_utils:
-        class:      AppBundle\Service\ControllerUtils
-        lazy:       true
-        arguments:  [@templating, @router, @form.factory, @security.context, @app.service.unsafeactionform]
-
-    security.context:
-        class:      %security.context.class%
-        lazy:       true
-        arguments:  [@security.token_storage, @security.authorization_checker]
-
-    form.factory:
-        class:      %form.factory.class%
-        lazy:       true
-        arguments:  [@form.registry, @form.resolved_type_factory]
-
     app.twig.unsafeactionextension:
         class:      AppBundle\Twig\UnsafeActionExtension
-        arguments:  [ @app.service.unsafeactionform, @twig.form.renderer ]
-        tags:       [ { name: twig.extension } ]
+        arguments:  [@app.service.unsafeactionform, @twig.form.renderer]
+        tags:       [{ name: twig.extension }]
 
     app.service.unsafeactionform:
         class:      AppBundle\Service\UnsafeActionFormBuilder
-        arguments:  [ @form.factory]
+        arguments:  [@form.factory]

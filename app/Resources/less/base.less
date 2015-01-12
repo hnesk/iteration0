@@ -68,7 +68,7 @@ body {
 // Bootswatch
 // -----------------------------------------------------
 
-@import url("//fonts.googleapis.com/css?family=Rochester|Open+Sans");
+// @import url("//fonts.googleapis.com/css?family=Rochester|Open+Sans");
 
 // Navbar =====================================================================
 
@@ -144,12 +144,23 @@ input,
 }
 
 
+.header .col-12 {
+  position: relative;
+}
 
 .brand {
+  position: relative;
   letter-spacing: -1px;
   text-transform: lowercase;
   font-weight: normal;
   text-shadow: 0px 0px 2px @gray-dark;
+  color: #ffffee;
+  text-decoration: underline;
+
+  &:hover, &:active, &:focus {
+    color: #ffffff;
+  }
+
 
   i {
     font-family: 'Times New Roman', serif;
@@ -159,7 +170,30 @@ input,
     position: relative;
     top: 0.4em;
     left: -0.01em;
+    text-decoration: none;
   }
+
+  small {
+    position: absolute;
+    left: 4em;
+    top: 9.5em;
+    font-size: 0.23em;
+    text-decoration: none;
+    letter-spacing: 0px;
+    line-height: 1.1;
+  }
+}
+
+.header .brand {
+    position: absolute;
+    bottom: 2px;
+    left: 10px;
+    font-size: 66px;
+    width: 4.5em;
+}
+
+#footer .brand {
+  text-decoration: none;
 }
 
 .navbar-brand {

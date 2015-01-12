@@ -18,9 +18,10 @@ class MenuBuilder
     public function createMainMenu(/*Request $request*/)
     {
         $menu = $this->factory->createItem('root');
+        $menu->addChild('Start', ['route' => 'cms_static_index']);
+        $we = $menu->addChild('Wer wir sind', ['route' => 'cms_static_page', 'routeParameters' => ['page'=>'wer-wir-sind']]);
 
-        $menu->addChild('Home', ['route' => 'app_static_index']);
-
+        $menu->addChild('Wer wir sind', ['route' => 'cms_static_page', 'routeParameters' => ['page'=>'wer-wir-sind']]);
         return $menu;
     }
 }

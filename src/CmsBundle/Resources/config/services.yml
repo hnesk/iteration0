@@ -1,0 +1,44 @@
+services:
+    cms.service.pagemanager:
+        class:      CmsBundle\Service\PageManager
+        arguments:  [@local_content_fs, @local_resource_fs, @cms.service.markdown, @router.request_context]
+
+    cms.service.markdown:
+        class:      CmsBundle\Service\ContextMarkdownParser
+        tags:       [ {name: markdown.parser, alias:context} ]
+
+    cms.controller.static:
+        class:    CmsBundle\Controller\StaticController
+        arguments:
+            - @cms.controller_utils
+            - @cms.service.pagemanager
+
+    cms.menu_builder:
+        class:      CmsBundle\Service\MenuBuilder
+        arguments:  [@knp_menu.factory, @cms.service.pagemanager]
+
+    cms.menu.main:
+        class:      Knp\Menu\MenuItem
+        factory_service: cms.menu_builder
+        factory_method: createMainMenu
+        arguments:  [@request]
+        scope:      request
+        tags:       [{ name: knp_menu.menu, alias: cms_main }]
+
+
+
+    cms.controller_utils:
+        class:      CmsBundle\Service\ControllerUtils
+        lazy:       true
+        arguments:  [@templating, @router, @form.factory, @security.context]
+
+    security.context:
+        class:      %security.context.class%
+        lazy:       true
+        arguments:  [@security.token_storage, @security.authorization_checker]
+
+    form.factory:
+        class:      %form.factory.class%
+        lazy:       true
+        arguments:  [@form.registry, @form.resolved_type_factory]
+
