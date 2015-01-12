@@ -1,5 +1,6 @@
 Title: Das Mietshäuser Syndikat
 ----
+Text:
 Wir haben uns dazu entschlossen unser Wohnprojekt im Rahmen des Mietshäuser Syndikats (MHS) zu verwirklichen. 
 
 Das Mietshäuser Syndikat ist ein solidarischer Zusammenschluss selbstorganisierter Mietshäuserprojekte, 

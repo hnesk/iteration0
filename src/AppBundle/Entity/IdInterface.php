@@ -7,13 +7,10 @@
  */
 namespace AppBundle\Entity;
 
-
-
 interface IdInterface
 {
     /**
      * @return mixed
      */
     public function getId();
-
 }

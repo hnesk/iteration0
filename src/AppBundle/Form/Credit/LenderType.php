@@ -11,7 +11,7 @@ class LenderType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -20,14 +20,14 @@ class LenderType extends AbstractType
             ->add('address', 'postaladdress')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Lender::class
+            'data_class' => Lender::class,
         ));
     }
 

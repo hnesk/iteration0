@@ -21,7 +21,7 @@ class StaticController
 
     /**
      * @param ControllerUtils $utils
-     * @param PageManager $pageManager
+     * @param PageManager     $pageManager
      */
     public function __construct(ControllerUtils $utils, PageManager $pageManager)
     {
@@ -45,18 +45,19 @@ class StaticController
     public function update()
     {
         $this->pageManager->update();
+
         return $this->utils->redirectRoute('cms_static_index');
     }
 
-
     /**
      * @Route("/{page}",requirements={"page":".+"})
-     * @param string $page
+     * @param  string   $page
      * @return Response
      */
     public function pageAction($page)
     {
         $page = $this->pageManager->get($page);
+
         return $this->utils->render(
             '@Cms/Static/index.html.twig',
             [
@@ -64,5 +65,4 @@ class StaticController
             ]
         );
     }
-
 }

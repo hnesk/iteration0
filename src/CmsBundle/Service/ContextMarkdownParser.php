@@ -13,7 +13,6 @@ use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 use Knp\Bundle\MarkdownBundle\Parser\MarkdownParser;
 use Symfony\Component\Routing\RequestContext;
 
-
 class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInterface
 {
     /** @var RequestContext|null */
@@ -25,22 +24,23 @@ class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInte
     }
 
     /**
-     * @param string $text
+     * @param  string $text
      * @return string
      */
     public function transformMarkdown($text)
     {
         $text = parent::transformMarkdown($text);
         $this->context = null;
+
         return $text;
     }
 
-
-    protected function _doImages_inline_callback($matches) {
-        $alt_text		= $matches[2];
-        $url			= $matches[3] == '' ? $matches[4] : $matches[3];
-        $title			=& $matches[7];
-        $attr  = $this->doExtraAttributes("img", $dummy =& $matches[8]);
+    protected function _doImages_inline_callback($matches)
+    {
+        $alt_text        = $matches[2];
+        $url            = $matches[3] == '' ? $matches[4] : $matches[3];
+        $title            = & $matches[7];
+        $attr  = $this->doExtraAttributes("img", $dummy = & $matches[8]);
 
         $alt_text = $this->encodeAttribute($alt_text);
         $url = $this->encodeAttribute($this->processResource($url));
@@ -57,12 +57,11 @@ class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInte
 
     protected function _doAnchors_inline_callback($matches)
     {
-        $whole_match	=  $matches[1];
-        $link_text		=  $this->runSpanGamut($matches[2]);
-        $url			=  $matches[3] == '' ? $matches[4] : $matches[3];
-        $title			=& $matches[7];
-        $attr  = $this->doExtraAttributes("a", $dummy =& $matches[8]);
-
+        $whole_match    =  $matches[1];
+        $link_text        =  $this->runSpanGamut($matches[2]);
+        $url            =  $matches[3] == '' ? $matches[4] : $matches[3];
+        $title            = & $matches[7];
+        $attr  = $this->doExtraAttributes("a", $dummy = & $matches[8]);
 
         $url = $this->encodeAttribute($this->processLink($url));
 
@@ -88,7 +87,7 @@ class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInte
     }
 
     /**
-     * @param string $url
+     * @param  string $url
      * @return string
      */
     protected function processResource($url)
@@ -97,13 +96,14 @@ class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInte
         if ($url->getHost()->is()) {
             return $url;
         } else {
-            $baseUrl = new Url($this->getWebRoot() . '/resources' . $this->context->getPathInfo().'/');
+            $baseUrl = new Url($this->getWebRoot().'/resources'.$this->context->getPathInfo().'/');
+
             return new Url($baseUrl, $url);
         }
     }
 
     /**
-     * @param string $url
+     * @param  string $url
      * @return string
      */
     protected function processLink($url)
@@ -113,10 +113,10 @@ class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInte
             return $url;
         } else {
             $baseUrl = new Url($this->getLinkRoot().$this->context->getPathInfo().'/');
+
             return new Url($baseUrl, $url);
         }
     }
-
 
     /**
      * @return string
@@ -124,7 +124,7 @@ class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInte
     protected function getWebRoot()
     {
         $parts = pathinfo($this->context->getBaseUrl());
-        if (isset($parts['extension']) && $parts['extension']==='php') {
+        if (isset($parts['extension']) && $parts['extension'] === 'php') {
             return $parts['dirname'];
         } else {
             return $parts['dirname'].'/'.$parts['filename'];

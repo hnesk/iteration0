@@ -8,16 +8,15 @@
 
 namespace CmsBundle\Service;
 
-
 use CmsBundle\Entity\Page;
+use Doctrine\Common\Cache\Cache;
 use Gaufrette\File;
 use Gaufrette\Filesystem;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\RouterInterface;
 
-class PageManager {
-
+class PageManager
+{
     const BOM = "\xEF\xBB\xBF";
 
     /** @var Filesystem */
@@ -25,7 +24,6 @@ class PageManager {
 
     /** @var Filesystem */
     protected $resourceFs;
-
 
     /** @var ContextMarkdownParser  */
     protected $markdown;
@@ -42,36 +40,44 @@ class PageManager {
         'txt' => true,
         'doc' => true,
         'docx' => true,
-        'odt' => true
+        'odt' => true,
     ];
 
     /**
      * @var RequestContext
      */
     private $requestContext;
-
+    /**
+     * @var Cache
+     */
+    private $cache;
 
     /**
-     * @param Filesystem $contentFs
-     * @param Filesystem $resourceFs
+     * @param Filesystem            $contentFs
+     * @param Filesystem            $resourceFs
      * @param ContextMarkdownParser $markdown
-     * @param RequestContext $requestContext
+     * @param RequestContext        $requestContext
      */
-    public function __construct(Filesystem $contentFs, Filesystem $resourceFs, ContextMarkdownParser $markdown, RequestContext $requestContext)
+    public function __construct(Filesystem $contentFs, Filesystem $resourceFs, ContextMarkdownParser $markdown, RequestContext $requestContext, Cache $cache)
     {
         $this->contentFs = $contentFs;
         $this->resourceFs = $resourceFs;
         $this->markdown = $markdown;
         $this->requestContext = $requestContext;
+        $this->cache = $cache;
     }
 
-    public function update() {
+    public function update()
+    {
+        #$oldPages = $this->cache->fetch('pages');
         $allKeys = $this->contentFs->listKeys();
         if (isset($allKeys['keys'])) {
             foreach ($allKeys['keys'] as $key) {
                 $this->updateFile($this->contentFs->get($key));
             }
         }
+        $this->cache->delete('pages');
+        $this->cache->save('pages', $this->pages);
     }
 
     protected function updateFile(File $file)
@@ -82,7 +88,7 @@ class PageManager {
         if ($filename == 'index.md') {
             $page = $this->buildPageByFile($file);
             $this->pages[$page->getPath()] = $page;
-        } else if (isset($this->resourceExtensions[strtolower($extension)])) {
+        } elseif (isset($this->resourceExtensions[strtolower($extension)])) {
             $this->publishResource($file);
         }
     }
@@ -94,8 +100,9 @@ class PageManager {
         umask($oldModeMask);
     }
 
-    public function get($path) {
-        $path = rtrim($path,'/').'/';
+    public function get($path)
+    {
+        $path = rtrim($path, '/').'/';
 
         if (!isset($this->pages[$path])) {
             $filename = $path.'index.md';
@@ -111,7 +118,7 @@ class PageManager {
 
     protected function buildPageByFile(File $file)
     {
-        $path = pathinfo($file->getKey(),PATHINFO_DIRNAME);
+        $path = pathinfo($file->getKey(), PATHINFO_DIRNAME);
         $lastModified = new \DateTimeImmutable('@'.$file->getMtime());
         $content = $file->getContent();
         $data = self::parse($content);
@@ -123,7 +130,7 @@ class PageManager {
     }
 
     /**
-     * @param string $content
+     * @param  string $content
      * @return array
      */
     protected static function parse($content)
@@ -131,10 +138,12 @@ class PageManager {
         $data = array();
         $content = str_replace(self::BOM, '', $content);
         $fields = preg_split('!\n----\s*\n*!', $content);
-        foreach($fields as $field) {
+        foreach ($fields as $field) {
             $pos = strpos($field, ':');
             $key = str_replace(array('-', ' '), '_', strtolower(trim(substr($field, 0, $pos))));
-            if(empty($key)) continue;
+            if (empty($key)) {
+                continue;
+            }
             $data[$key] = trim(substr($field, $pos+1));
         }
 

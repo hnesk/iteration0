@@ -22,7 +22,7 @@ class LenderController
     protected $lenders;
 
     /**
-     * @param ControllerUtils $utils
+     * @param ControllerUtils  $utils
      * @param LenderRepository $lenders
      */
     public function __construct(ControllerUtils $utils, LenderRepository $lenders)
@@ -47,22 +47,24 @@ class LenderController
 
     /**
      * @Route("/neu")
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function newAction(Request $request)
     {
         $lender = new Lender();
         $form = $this->utils->formBuilder('credit_lender', $lender)
-            ->add('submit','submit', ['label' => 'Neuer Direktkreditgeber'])
+            ->add('submit', 'submit', ['label' => 'Neuer Direktkreditgeber'])
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $this->lenders->persist($lender);
+
             return $this->utils->redirectRoute('app_lender_index');
         }
+
         return $this->utils->render(
             '@App/Lender/new.html.twig',
             [
@@ -72,25 +74,26 @@ class LenderController
         );
     }
 
-
     /**
      * @Route("/{lender}/", methods={"GET","POST"})
-     * @param Request $request
-     * @param Lender $lender
+     * @param  Request  $request
+     * @param  Lender   $lender
      * @return Response
      */
     public function editAction(Request $request, Lender $lender)
     {
         $form = $this->utils->formBuilder('credit_lender', $lender)
-            ->add('submit','submit', ['label' => 'Speichern'])
+            ->add('submit', 'submit', ['label' => 'Speichern'])
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->lenders->persist($lender);
+
             return $this->utils->redirectRoute('app_lender_index');
         }
+
         return $this->utils->render(
             '@App/Lender/edit.html.twig',
             [
@@ -102,8 +105,8 @@ class LenderController
 
     /**
      * @Route("/{lender}/",methods={"DELETE"})
-     * @param Request $request
-     * @param Lender $lender
+     * @param  Request  $request
+     * @param  Lender   $lender
      * @return Response
      *
      */
@@ -113,10 +116,9 @@ class LenderController
         $form->handleRequest($request);
         if ($form->isValid()) {
             $this->lenders->remove($lender);
+
             return $this->utils->redirectRoute('app_lender_index');
         }
         throw new BadRequestHttpException('Invalid form');
     }
-
-
 }

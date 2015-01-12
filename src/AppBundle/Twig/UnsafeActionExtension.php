@@ -23,7 +23,6 @@ class UnsafeActionExtension extends \Twig_Extension
      */
     private $renderer;
 
-
     public function __construct(UnsafeActionFormBuilder $formBuilder, TwigRendererInterface $renderer)
     {
         $this->formBuilder = $formBuilder;
@@ -41,7 +40,7 @@ class UnsafeActionExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('unsafe_action', [$this, 'unsafeActionButton'], ['is_safe' => ['html']])
+            new \Twig_SimpleFunction('unsafe_action', [$this, 'unsafeActionButton'], ['is_safe' => ['html']]),
         );
     }
 
@@ -49,9 +48,9 @@ class UnsafeActionExtension extends \Twig_Extension
     {
         /** @var Form $form */
         $form = $this->formBuilder->form($url, $method, $label);
+
         return $this->renderer->renderBlock($form->createView(), 'form');
     }
-
 
     /**
      * Returns the name of the extension.

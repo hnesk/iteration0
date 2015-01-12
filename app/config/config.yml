@@ -88,7 +88,7 @@ knp_gaufrette:
     adapters:
         local_content_adapter:
             local:
-                directory:  /home/jk/Projekte/flosse/app/Resources/content/
+                directory:  %kernel.root_dir%/Resources/content/
                 create:     true
         local_resource_adapter:
             local:
@@ -109,3 +109,10 @@ knp_gaufrette:
 knp_markdown:
     parser:
         service: cms.service.markdown
+
+doctrine_cache:
+    providers:
+        page_cache:
+            type: file_system
+            #extension: cache
+            #directory: %kernel.rootdir%/

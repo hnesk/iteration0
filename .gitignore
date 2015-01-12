@@ -19,6 +19,7 @@
 /build/coverage/
 /build/logs/
 /build/pdepend/
+/build/*.tar.gz
 /build/ant.properties
 cache.properties
 .idea

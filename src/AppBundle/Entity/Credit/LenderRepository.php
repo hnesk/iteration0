@@ -8,7 +8,6 @@
 
 namespace AppBundle\Entity\Credit;
 
-
 use Doctrine\ORM\EntityRepository;
 
 class LenderRepository extends EntityRepository
@@ -24,5 +23,4 @@ class LenderRepository extends EntityRepository
         $this->_em->remove($lender);
         $this->_em->flush();
     }
-
 }

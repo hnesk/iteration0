@@ -11,7 +11,7 @@ class PersonNameType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -27,14 +27,14 @@ class PersonNameType extends AbstractType
             ->add('lastName')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => PersonName::class
+            'data_class' => PersonName::class,
         ));
     }
 

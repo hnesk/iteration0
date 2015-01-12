@@ -42,11 +42,12 @@ class Change
     protected $interest;
 
     /**
-     * @param \DateTime $periodStart
-     * @param int|null $amount
+     * @param \DateTime  $periodStart
+     * @param int|null   $amount
      * @param float|null $interest
      */
-    public function __construct(\DateTime $periodStart = null, $amount = null, $interest = null) {
+    public function __construct(\DateTime $periodStart = null, $amount = null, $interest = null)
+    {
         $this->periodStart = $periodStart ?: new \DateTime();
         $this->amount = $amount;
         $this->interest = $interest;

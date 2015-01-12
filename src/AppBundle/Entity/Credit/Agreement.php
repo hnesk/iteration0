@@ -74,10 +74,10 @@ class Agreement implements IdInterface
     protected $changes = null;
 
     /**
-     * @param Lender $lender
-     * @param int $amount
-     * @param float $interest
-     * @param int $periodOfNotice
+     * @param Lender         $lender
+     * @param int            $amount
+     * @param float          $interest
+     * @param int            $periodOfNotice
      * @param \DateTime|null $periodStart
      * @param \DateTime|null $periodEnd
      */
@@ -200,5 +200,4 @@ class Agreement implements IdInterface
     {
         $this->periodStart = $periodStart;
     }
-
 }

@@ -11,7 +11,7 @@ class PostalAddressType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -20,18 +20,18 @@ class PostalAddressType extends AbstractType
             ->add('postalCode')
             ->add('locality')
             ->add('region')
-            ->add('country','country')
+            ->add('country', 'country')
             #->add('postOfficeBoxNumber')
-        ;
+;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => PostalAddress::class
+            'data_class' => PostalAddress::class,
         ));
     }
 

@@ -212,8 +212,6 @@ class PostalAddress
      */
     public function __toString()
     {
-        return $this->streetAddress . ', ' . $this->postalCode . ' ' . $this->locality.', '.$this->country;
+        return $this->streetAddress.', '.$this->postalCode.' '.$this->locality.', '.$this->country;
     }
-
-
 }

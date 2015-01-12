@@ -69,5 +69,4 @@ class Page
     {
         return $this->lastModified;
     }
-
 }

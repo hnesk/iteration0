@@ -8,7 +8,6 @@
 
 namespace AppBundle\Entity\Credit;
 
-
 use Doctrine\ORM\EntityRepository;
 
 class AgreementRepository extends EntityRepository
@@ -24,5 +23,4 @@ class AgreementRepository extends EntityRepository
         $this->_em->remove($agreement);
         $this->_em->flush();
     }
-
 }

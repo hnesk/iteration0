@@ -22,7 +22,7 @@ class CreditController
     protected $agreements;
 
     /**
-     * @param ControllerUtils $utils
+     * @param ControllerUtils     $utils
      * @param AgreementRepository $agreements
      */
     public function __construct(ControllerUtils $utils, AgreementRepository $agreements)
@@ -45,17 +45,16 @@ class CreditController
         );
     }
 
-
     /**
      * @Route("/neu")
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function newAction(Request $request)
     {
         $agreement = new Agreement();
         $form = $this->utils->formBuilder('credit_agreement', $agreement)
-            ->add('submit','submit', ['label' => 'Neuer Direktkreditvertrag'])
+            ->add('submit', 'submit', ['label' => 'Neuer Direktkreditvertrag'])
             ->getForm();
 
         $form->handleRequest($request);
@@ -63,6 +62,7 @@ class CreditController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->agreements->persist($agreement);
         }
+
         return $this->utils->render(
             '@App/Agreement/new.html.twig',
             [
@@ -72,17 +72,16 @@ class CreditController
         );
     }
 
-
     /**
      * @Route("/{agreement}/")
-     * @param Request $request
-     * @param Agreement $agreement
+     * @param  Request   $request
+     * @param  Agreement $agreement
      * @return Response
      */
     public function editAction(Request $request, Agreement $agreement)
     {
         $form = $this->utils->formBuilder('credit_agreement', $agreement)
-            ->add('submit','submit', ['label' => 'Speichern'])
+            ->add('submit', 'submit', ['label' => 'Speichern'])
             ->getForm();
 
         $form->handleRequest($request);
@@ -90,6 +89,7 @@ class CreditController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->agreements->persist($agreement);
         }
+
         return $this->utils->render(
             '@App/Agreement/edit.html.twig',
             [
@@ -101,8 +101,8 @@ class CreditController
 
     /**
      * @Route("/{agreement}/",methods={"DELETE"})
-     * @param Request $request
-     * @param Agreement $agreement
+     * @param  Request   $request
+     * @param  Agreement $agreement
      * @return Response
      */
     public function deleteAction(Request $request, Agreement $agreement)
@@ -111,10 +111,9 @@ class CreditController
         $form->handleRequest($request);
         if ($form->isValid()) {
             $this->agreements->remove($agreement);
+
             return $this->utils->redirectRoute('app_lender_index');
         }
         throw new BadRequestHttpException('Invalid form');
     }
-
-
 }

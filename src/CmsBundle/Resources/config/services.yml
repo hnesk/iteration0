@@ -1,7 +1,7 @@
 services:
     cms.service.pagemanager:
         class:      CmsBundle\Service\PageManager
-        arguments:  [@local_content_fs, @local_resource_fs, @cms.service.markdown, @router.request_context]
+        arguments:  [@local_content_fs, @local_resource_fs, @cms.service.markdown, @router.request_context, @doctrine_cache.providers.page_cache]
 
     cms.service.markdown:
         class:      CmsBundle\Service\ContextMarkdownParser
@@ -41,4 +41,3 @@ services:
         class:      %form.factory.class%
         lazy:       true
         arguments:  [@form.registry, @form.resolved_type_factory]
-

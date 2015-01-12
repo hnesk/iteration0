@@ -14,7 +14,7 @@ class MenuBuilder
 
     /**
      * @param FactoryInterface $factory
-     * @param PageManager $pageManager
+     * @param PageManager      $pageManager
      */
     public function __construct(FactoryInterface $factory, PageManager $pageManager)
     {
@@ -26,6 +26,7 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         $this->addCmsPage($menu, 'Start', $this->pageManager->getHome()->getPath());
+
         return $menu;
     }
 
@@ -36,7 +37,7 @@ class MenuBuilder
             [
                 'route' => 'cms_static_page',
                 'routeParameters' => [
-                    'page'=>$path
+                    'page' => $path,
                 ]
             ]
         );

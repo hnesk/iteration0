@@ -40,9 +40,9 @@ class ControllerUtils
     private $security;
 
     /**
-     * @param EngineInterface $templating
-     * @param RouterInterface $router
-     * @param FormFactoryInterface $formFactory
+     * @param EngineInterface          $templating
+     * @param RouterInterface          $router
+     * @param FormFactoryInterface     $formFactory
      * @param SecurityContextInterface $security
      */
     public function __construct(
@@ -71,9 +71,9 @@ class ControllerUtils
     }
 
     /**
-     * @param  string                                       $type    #FormType
-     * @param  null                                         $data
-     * @param  array                                        $options
+     * @param  string               $type    #FormType
+     * @param  null                 $data
+     * @param  array                $options
      * @return FormBuilderInterface
      */
     public function formBuilder($type = 'form', $data = null, array $options = array())
@@ -130,10 +130,10 @@ class ControllerUtils
     /**
      * Renders a template.
      *
-     * @param array|string|TemplateReferenceInterface $name A #Template name or a TemplateReferenceInterface
-     * @param array $parameters An array of parameters to pass to the template
+     * @param array|string|TemplateReferenceInterface $name       A #Template name or a TemplateReferenceInterface
+     * @param array                                   $parameters An array of parameters to pass to the template
      *
-     * @param int $status
+     * @param int   $status
      * @param array $headers
      *
      * @return Response The evaluated template as a string

@@ -107,6 +107,4 @@ class PersonName
     {
         return $this->firstName.' '.$this->lastName;
     }
-
-
 }

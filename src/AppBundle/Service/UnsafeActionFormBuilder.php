@@ -8,15 +8,13 @@
 
 namespace AppBundle\Service;
 
-
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactoryInterface;
 
-class UnsafeActionFormBuilder {
-
+class UnsafeActionFormBuilder
+{
     /** @var FormFactoryInterface */
     private $formFactory;
-
 
     public function __construct(FormFactoryInterface $formFactory)
     {
@@ -24,21 +22,18 @@ class UnsafeActionFormBuilder {
     }
 
     /**
-     * @param string $url
-     * @param string $method
-     * @param string $label
+     * @param  string $url
+     * @param  string $method
+     * @param  string $label
      * @return Form
      */
     public function form($url = '', $method = 'DELETE', $label = 'löschen')
     {
         /** @noinspection PhpUndefinedMethodInspection */
         return $this->formFactory->createBuilder()
-            ->add('submit','submit', ['label' =>  $label])
+            ->add('submit', 'submit', ['label' =>  $label])
             ->setMethod($method)
             ->setAction($url)
             ->getForm();
     }
-
-
 }
-

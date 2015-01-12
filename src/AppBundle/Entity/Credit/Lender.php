@@ -80,8 +80,6 @@ class Lender implements IdInterface
 
     public function __toString()
     {
-        return $this->name->__toString().', '.(string)$this->address->__toString();
+        return $this->name->__toString().', '.(string) $this->address->__toString();
     }
-
-
 }

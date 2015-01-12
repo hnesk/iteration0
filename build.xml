@@ -6,6 +6,9 @@
     <property name="builddir" value="${basedir}/build"/>
     <property name="bindir" value="${basedir}/bin"/>
     <property name="buildbindir" value="${bindir}"/>
+    <property name="deployhost" value="flosse.gucken.org" />
+    <property name="deploydir" value="/var/www/flosse.gucken.org/" />
+
 
     <target name="build" depends="build-sequential"/>
 
@@ -78,6 +81,19 @@
             <arg file="${basedir}" />
         </exec>
         <available property="composer.install" file="${basedir}/composer.lock"/>
+    </target>
+
+    <target name="composer-install-no-dev" description="Composer install --no-dev" depends="composer-selfupdate">
+        <exec executable="${buildbindir}/composer.phar">
+            <arg value="install" />
+            <arg value="--prefer-dist"/>
+            <arg value="--no-dev"/>
+            <arg value="--optimize-autoloader"/>
+            <arg value="--no-progress"/>
+            <arg value="--no-interaction"/>
+            <arg value="--working-dir"/>
+            <arg file="${basedir}" />
+        </exec>
     </target>
 
     <target name="lint">
@@ -219,6 +235,79 @@
             <arg value="slow" />
         </exec>
     </target>
+
+    <target name="tar" description="Deploys to test server" depends="prepare,lint,composer-selfupdate">
+        <exec executable="./bin/console" failonerror="true">
+            <arg value="cache:clear"/>
+            <arg value="--env=prod"/>
+            <arg value="--no-debug"/>
+        </exec>
+        <exec executable="./bin/console" failonerror="true">
+            <arg value="assetic:dump"/>
+            <arg value="--env=prod"/>
+            <arg value="--no-debug"/>
+        </exec>
+        <antcall target="composer-install-no-dev"/>
+        <tar destfile="${builddir}/flosse.tar.gz" basedir="." compression="gzip" longfile="gnu">
+            <include name="app/" />
+            <include name="bin/" />
+            <exclude name="var/"/>
+            <exclude name="app/config/parameters.yml"/>
+            <exclude name="app/Resources/java"/>
+            <exclude name="app/Resources/less"/>
+
+            <include name="src/" />
+
+            <include name="vendor/"/>
+            <exclude name="vendor/*/*/tests/"/>
+            <exclude name="vendor/*/*/*/tests/"/>
+            <exclude name="vendor/*/*/*/*/Tests/"/>
+            <exclude name="vendor/*/*/*/*/*/Tests/"/>
+            <exclude name="vendor/*/*/*/*/*/*/Tests/"/>
+            <exclude name="vendor/*/*/*/*/*/*/*/Tests/"/>
+
+            <include name="web/"/>
+            <exclude name="web/resources/"/>
+            <!--
+            <exclude name="web/app_dev.php"/>
+            <exclude name="web/bundles/framework/"/>
+            <exclude name="web/bundles/sensiodistribution/"/>
+            -->
+
+            <include name="web/js/jquery.js"/>
+            <exclude name="web/js/jquery_*.js"/>
+
+            <include name="web/js/bootstrap.js"/>
+            <exclude name="web/js/bootstrap_*.js"/>
+
+            <include name="web/css/bootstrap.css"/>
+            <exclude name="web/css/bootstrap_*.css"/>
+
+        </tar>
+        <antcall target="composer-install" />
+    </target>
+
+    <target name="cs-do">
+        <exec executable="${buildbindir}/php-cs-fixer">
+            <arg value="fix"/>
+            <arg value="--fixers=-remove_lines_between_uses"/>
+            <arg file="${basedir}/src"/>
+        </exec>
+    </target>
+
+
+    <target name="deploy" depends="">
+        <exec executable="scp" failonerror="true">
+            <arg file="${builddir}/flosse.tar.gz" />
+            <arg value="${deployhost}:${deploydir}" />
+        </exec>
+        <!-- <get src="http://${deployhost}/apc.php" dest="./var/cache/apc_clear"/> -->
+        <exec executable="ssh" failonerror="true">
+            <arg value="${deployhost}" />
+            <arg value="cd ${deploydir}; tar -xpzf flosse.tar.gz; rm -Rf ./var/cache/*/ ; chmod +x ./bin/console; ./bin/console --no-debug --env=prod cache:clear" />
+        </exec>
+    </target>
+
 
     <target name="phpdox"
             description="Generate API documentation using phpDox"
