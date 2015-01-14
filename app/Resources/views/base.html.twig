@@ -56,7 +56,13 @@
 <div id="footer">
     <div class="container">
         {% block footer %}
-            <p><strike>&copy;</strike> <span class="brand"><i>F</i>.L.O.S.S.E GmbH</span> {{ "now"|date("Y") }}</p>
+
+            <p>
+                <strike>&copy;</strike>
+                <span class="brand"><i>F</i>.L.O.S.S.E GmbH</span> {{ "now"|date("Y") }}
+                -
+                <a href="{{ path('cms_static_page', {'page':'impressum'}) }}">Impressum</a>
+            </p>
         {% endblock footer %}
     </div>
 </div>

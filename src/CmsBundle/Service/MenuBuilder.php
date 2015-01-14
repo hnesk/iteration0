@@ -28,12 +28,11 @@ class MenuBuilder
         $this->router = $router;
     }
 
-    public function createMainMenu(/*Request $request*/)
+    public function createMenu($menuName)
     {
-        $menuDocument = $this->pageManager->getMenu('main');
+        $menuDocument = $this->pageManager->getMenu($menuName);
         $menu = $this->factory->createItem('root');
         $this->processListItem($menu, $menuDocument, $menuDocument);
-
         return $menu;
     }
 
