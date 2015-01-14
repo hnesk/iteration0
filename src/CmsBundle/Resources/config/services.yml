@@ -1,10 +1,19 @@
 services:
     cms.service.pagemanager:
         class:      CmsBundle\Service\PageManager
-        arguments:  [@local_content_fs, @local_resource_fs, @cms.service.markdown, @router.request_context, @doctrine_cache.providers.page_cache]
+        arguments:
+            - @local_content_fs
+            - @local_resource_fs
+            - @cms.service.markdown
+            - @router.request_context
+            - @doctrine_cache.providers.page_cache
 
     cms.service.markdown:
         class:      CmsBundle\Service\ContextMarkdownParser
+        arguments:
+            - {}
+            - @router.request_context
+            - @router.default
         tags:       [ {name: markdown.parser, alias:context} ]
 
     cms.controller.static:
@@ -15,7 +24,10 @@ services:
 
     cms.menu_builder:
         class:      CmsBundle\Service\MenuBuilder
-        arguments:  [@knp_menu.factory, @cms.service.pagemanager]
+        arguments:
+            - @knp_menu.factory
+            - @cms.service.pagemanager
+            - @router.default
 
     cms.menu.main:
         class:      Knp\Menu\MenuItem

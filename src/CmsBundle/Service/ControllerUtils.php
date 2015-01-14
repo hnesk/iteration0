@@ -1,11 +1,7 @@
 <?php
 /**
  * @author Johannes Künsebeck <jkuensebeck@taz.de>
- * @package
- * @license proprietary
- * @copyright  2014 contrapress Satz u. Druck GmbH Neue KG
  *
- * Created: 25.07.14 15:38
  */
 
 namespace CmsBundle\Service;

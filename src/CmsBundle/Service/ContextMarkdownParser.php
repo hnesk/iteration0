@@ -8,15 +8,26 @@
 
 namespace CmsBundle\Service;
 
-use Civilized\Type\Url;
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 use Knp\Bundle\MarkdownBundle\Parser\MarkdownParser;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouterInterface;
 
 class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInterface
 {
     /** @var RequestContext|null */
     protected $context = null;
+    /**
+     * @var RouterInterface
+     */
+    private $router;
+
+    public function __construct(array $features = array(), RequestContext $requestContext, RouterInterface $router)
+    {
+        parent::__construct($features);
+        $this->context = $requestContext;
+        $this->router = $router;
+    }
 
     public function setRequestContext(RequestContext $context)
     {
@@ -30,7 +41,6 @@ class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInte
     public function transformMarkdown($text)
     {
         $text = parent::transformMarkdown($text);
-        $this->context = null;
 
         return $text;
     }
@@ -57,7 +67,6 @@ class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInte
 
     protected function _doAnchors_inline_callback($matches)
     {
-        $whole_match    =  $matches[1];
         $link_text        =  $this->runSpanGamut($matches[2]);
         $url            =  $matches[3] == '' ? $matches[4] : $matches[3];
         $title            = & $matches[7];
@@ -78,27 +87,17 @@ class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInte
         return $this->hashPart($result);
     }
 
-    protected function setup()
-    {
-        parent::setup();
-        foreach ($this->urls as $k => $url) {
-            $this->urls[$k] = $this->processLink($url);
-        }
-    }
-
     /**
      * @param  string $url
      * @return string
      */
     protected function processResource($url)
     {
-        $url = Url::cast($url);
-        if ($url->getHost()->is()) {
+        $urlParts = parse_url($url);
+        if (isset($urlParts['host'])) {
             return $url;
         } else {
-            $baseUrl = new Url($this->getWebRoot().'/resources'.$this->context->getPathInfo().'/');
-
-            return new Url($baseUrl, $url);
+            return $this->getResourcesRoot().$this->context->getPathInfo().'/'.$urlParts['path'];
         }
     }
 
@@ -108,34 +107,24 @@ class ContextMarkdownParser extends MarkdownParser implements MarkdownParserInte
      */
     protected function processLink($url)
     {
-        $url = Url::cast($url);
-        if ($url->getHost()->is()) {
-            return $url;
-        } else {
-            $baseUrl = new Url($this->getLinkRoot().$this->context->getPathInfo().'/');
+        $parameters = $this->router->match('/'.$url);
 
-            return new Url($baseUrl, $url);
-        }
+        return $this->router->generate(
+            $parameters['_route'],
+            array_diff_key($parameters, ['_route' => true, '_controller' => true])
+        );
     }
 
     /**
      * @return string
      */
-    protected function getWebRoot()
+    protected function getResourcesRoot()
     {
         $parts = pathinfo($this->context->getBaseUrl());
         if (isset($parts['extension']) && $parts['extension'] === 'php') {
-            return $parts['dirname'];
+            return $parts['dirname'].'resources';
         } else {
-            return $parts['dirname'].'/'.$parts['filename'];
+            return $parts['dirname'].'resources';
         }
-    }
-
-    /**
-     * @return string
-     */
-    protected function getLinkRoot()
-    {
-        return $this->context->getBaseUrl();
     }
 }

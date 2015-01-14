@@ -57,13 +57,15 @@ class PageManager
      * @param Filesystem            $resourceFs
      * @param ContextMarkdownParser $markdown
      * @param RequestContext        $requestContext
+     * @param Cache                 $cache
      */
     public function __construct(Filesystem $contentFs, Filesystem $resourceFs, ContextMarkdownParser $markdown, RequestContext $requestContext, Cache $cache)
     {
         $this->contentFs = $contentFs;
         $this->resourceFs = $resourceFs;
-        $this->markdown = $markdown;
         $this->requestContext = $requestContext;
+        $this->markdown = $markdown;
+        $this->markdown->setRequestContext($this->requestContext);
         $this->cache = $cache;
     }
 
@@ -122,8 +124,6 @@ class PageManager
         $lastModified = new \DateTimeImmutable('@'.$file->getMtime());
         $content = $file->getContent();
         $data = self::parse($content);
-
-        $this->markdown->setRequestContext($this->requestContext);
         $data['text'] = $this->markdown->transformMarkdown($data['text']);
 
         return new Page($path, $lastModified, $data['title'], $data['text']);
@@ -156,5 +156,24 @@ class PageManager
     public function getHome()
     {
         return $this->get('aktuelles');
+    }
+
+    /**
+     * @param  string       $menuName
+     * @return \DOMDocument
+     */
+    public function getMenu($menuName = 'main')
+    {
+        $menuFilename = 'menu/'.$menuName.'.md';
+        if (!$this->contentFs->has($menuFilename)) {
+            throw new NotFoundHttpException('Menu "'.$menuName.'" nicht gefunden!');
+        }
+        $menuFile = $this->contentFs->get($menuFilename);
+        $html = $this->markdown->transformMarkdown($menuFile->getContent());
+
+        $menu = new \DOMDocument();
+        $menu->loadXML($html);
+
+        return $menu;
     }
 }
