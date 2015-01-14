@@ -1,7 +1,7 @@
 Title:Du möchtest uns mit einem Direktkredit unterstützen?
 ----
 Text:
-1. Wenn Du Dich entschlossen hast, [uns](../../../wer-wir-sind) mit einem [Direktkredit](../was-sind-direktkredite) zu unterstützen, dann sind folgende Schritte zu tun: Den Direktkreditvertrag in zweifacher Ausfertigung ausfüllen, unterzeichnen und an uns schicken. Du erhältst die Formulare entweder auf unserer Homepage oder direkt von uns. Solltest Du bereits vor der Überweisung einen gegengezeichneten Kreditvertrag zugeschickt bekommen wollen, vermerke dies bitte im Anschreiben.
+1. Wenn Du Dich entschlossen hast, [uns](wer-wir-sind/die-gruppe) mit einem [Direktkredit](unterstuetzen/was-sind-direktkredite) zu unterstützen, dann sind folgende Schritte zu tun: Den Direktkreditvertrag in zweifacher Ausfertigung ausfüllen, unterzeichnen und an uns schicken. Du erhältst die Formulare entweder auf unserer Homepage oder direkt von uns. Solltest Du bereits vor der Überweisung einen gegengezeichneten Kreditvertrag zugeschickt bekommen wollen, vermerke dies bitte im Anschreiben.
 2. Den Kreditbetrag überweisen auf das Konto des F.L.O.S.S.E-Wohnprojekts:
 
    > Sparkasse Bielefeld  

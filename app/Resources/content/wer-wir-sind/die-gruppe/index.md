@@ -1,8 +1,6 @@
 Title:Die Gruppe
 ----
 Text:
-## Die Gruppe
-
 Seit dem Frühjahr 2014 treffen wir uns als kleine Gruppe von vier Erwachsenen und einem Kind mit dem Ziel 
 in Bielefeld ein Wohnprojekt im Rahmen des Mietshäuser Syndikats (MHS) zu initiieren und zu verwirklichen. 
 Für dieses Vorhaben haben wir im September einen Verein (Schönerhausen n.e.V.) gegründet und anschließend 

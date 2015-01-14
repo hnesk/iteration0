@@ -8,3 +8,5 @@ Text:
 
 Am Samstag werden wir uns auf der Mitgliederversammlung des Mietshäuser Syndikats in Tübingen vorstellen.
 
+![Das Haus](Frontansicht.png)
+
